@@ -1,0 +1,29 @@
+region = "eu-west-2"
+
+# Placeholder only. Do not commit real account IDs in this public repo.
+shared_services_account_id = "111111111111"
+
+# Permanent explicit TGW RAM principal.
+# Placeholder only. Do not commit real account IDs in this public repo.
+sandbox_account_id = "222222222222"
+
+# Temporary explicit TGW RAM principals for the TGW test.
+# Add the management account ID only during the test, then set this back to [].
+# Placeholder only. Do not commit real account IDs in this public repo.
+tgw_test_account_ids = [
+  "333333333333"
+]
+
+management_test_vpc_cidr = "10.0.0.0/16"
+sandbox_vpc_cidr         = "10.2.0.0/16"
+
+# Test day:
+#   true  = create temporary shared-services EC2 test instance
+#   false = destroy/skip temporary test instance
+create_tgw_test_instance = false
+
+tags = {
+  Project     = "aws-shared-services-infra"
+  ManagedBy   = "terraform"
+  Environment = "shared-services"
+}

@@ -1,0 +1,92 @@
+name: Shared Services Plan
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "*.tf"
+      - "terraform.tfvars.example"
+      - ".github/workflows/shared-services-plan.yml"
+      - ".github/workflows/shared-services-apply.yml"
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  plan:
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+
+    env:
+      TF_VAR_shared_services_account_id: ${{ secrets.SHARED_SERVICES_ACCOUNT_ID }}
+      TF_VAR_sandbox_account_id: ${{ secrets.SANDBOX_ACCOUNT_ID }}
+      TF_VAR_tgw_test_account_ids: ${{ vars.TGW_TEST_ACCOUNT_IDS_JSON }}
+      TF_VAR_create_tgw_test_instance: ${{ vars.CREATE_TGW_TEST_INSTANCE }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Configure AWS credentials (management gateway OIDC)
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.MANAGEMENT_ACCOUNT_ID }}:role/github-actions-aws-shared-services-infra
+          aws-region: eu-west-2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: "~> 1.6"
+
+      - name: Terraform Format Check
+        run: terraform fmt -check
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        id: plan
+        run: |
+          terraform plan -no-color 2>&1 | tee plan_output.txt
+          echo "exit_code=${PIPESTATUS[0]}" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Post plan to PR
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const fs = require('fs');
+            const plan = fs.readFileSync('plan_output.txt', 'utf8');
+            const maxLength = 65000;
+            const truncated = plan.length > maxLength
+              ? plan.substring(0, maxLength) + '\n\n... (truncated; see Actions log for full output)'
+              : plan;
+
+            const body = `## Terraform Plan — \`aws-shared-services-infra\`
+
+            <details><summary>Show Plan</summary>
+
+            \`\`\`terraform
+            ${truncated}
+            \`\`\`
+
+            </details>
+
+            Triggered by commit \`${{ github.sha }}\` on branch \`${{ github.head_ref }}\`.`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+      - name: Check plan exit code
+        if: steps.plan.outputs.exit_code != '0'
+        run: exit 1
