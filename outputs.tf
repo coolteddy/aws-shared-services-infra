@@ -48,10 +48,10 @@ output "private_route_table_id" {
   value       = module.vpc.private_route_table_id
 }
 
-output "shared_services_tgw_attachment_id" {
-  description = "Shared-services VPC attachment ID."
-  value       = aws_ec2_transit_gateway_vpc_attachment.shared_services.id
-}
+# output "shared_services_tgw_attachment_id" {
+#   description = "Shared-services VPC attachment ID."
+#   value       = aws_ec2_transit_gateway_vpc_attachment.shared_services.id
+# }
 
 output "tgw_test_instance_id" {
   description = "Temporary shared-services TGW test EC2 instance ID, or null when disabled."
