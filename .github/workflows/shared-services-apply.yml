@@ -16,7 +16,7 @@ jobs:
     env:
       TF_VAR_shared_services_account_id: ${{ secrets.SHARED_SERVICES_ACCOUNT_ID }}
       TF_VAR_sandbox_account_id: ${{ secrets.SANDBOX_ACCOUNT_ID }}
-      TF_VAR_tgw_test_account_ids: ${{ vars.TGW_TEST_ACCOUNT_IDS_JSON }}
+      TF_VAR_tgw_test_account_ids: '["${{ secrets.MANAGEMENT_ACCOUNT_ID }}"]'
       TF_VAR_create_tgw_test_instance: ${{ vars.CREATE_TGW_TEST_INSTANCE }}
 
     steps:
