@@ -1,7 +1,14 @@
 name: Shared Services Apply
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "*.tf"
+      - "terraform.tfvars.example"
+      - ".github/workflows/shared-services-plan.yml"
+      - ".github/workflows/shared-services-apply.yml"
 
 permissions:
   id-token: write
