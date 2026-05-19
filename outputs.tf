@@ -1,22 +1,22 @@
-output "transit_gateway_id" {
-  description = "Shared-services TGW ID. Pass this to spoke repos for VPC attachments."
-  value       = module.transit_gateway.transit_gateway_id
-}
+# output "transit_gateway_id" {
+#   description = "Shared-services TGW ID. Pass this to spoke repos for VPC attachments."
+#   value       = module.transit_gateway.transit_gateway_id
+# }
 
-output "transit_gateway_arn" {
-  description = "Shared-services TGW ARN."
-  value       = module.transit_gateway.transit_gateway_arn
-}
+# output "transit_gateway_arn" {
+#   description = "Shared-services TGW ARN."
+#   value       = module.transit_gateway.transit_gateway_arn
+# }
 
-output "transit_gateway_route_table_id" {
-  description = "TGW route table ID exposed by the transit-gateway module."
-  value       = module.transit_gateway.route_table_id
-}
+# output "transit_gateway_route_table_id" {
+#   description = "TGW route table ID exposed by the transit-gateway module."
+#   value       = module.transit_gateway.route_table_id
+# }
 
-output "tgw_ram_share_arn" {
-  description = "RAM share ARN for the shared-services TGW."
-  value       = module.transit_gateway.ram_share_arn
-}
+# output "tgw_ram_share_arn" {
+#   description = "RAM share ARN for the shared-services TGW."
+#   value       = module.transit_gateway.ram_share_arn
+# }
 
 output "vpc_id" {
   description = "Shared-services VPC ID."
