@@ -1,22 +1,22 @@
-output "transit_gateway_id" {
-  description = "Shared-services TGW ID. Pass this to spoke repos for VPC attachments."
-  value       = module.transit_gateway.transit_gateway_id
-}
+# output "transit_gateway_id" {
+#   description = "Shared-services TGW ID. Pass this to spoke repos for VPC attachments."
+#   value       = module.transit_gateway.transit_gateway_id
+# }
 
-output "transit_gateway_arn" {
-  description = "Shared-services TGW ARN."
-  value       = module.transit_gateway.transit_gateway_arn
-}
+# output "transit_gateway_arn" {
+#   description = "Shared-services TGW ARN."
+#   value       = module.transit_gateway.transit_gateway_arn
+# }
 
-output "transit_gateway_route_table_id" {
-  description = "TGW route table ID exposed by the transit-gateway module."
-  value       = module.transit_gateway.route_table_id
-}
+# output "transit_gateway_route_table_id" {
+#   description = "TGW route table ID exposed by the transit-gateway module."
+#   value       = module.transit_gateway.route_table_id
+# }
 
-output "tgw_ram_share_arn" {
-  description = "RAM share ARN for the shared-services TGW."
-  value       = module.transit_gateway.ram_share_arn
-}
+# output "tgw_ram_share_arn" {
+#   description = "RAM share ARN for the shared-services TGW."
+#   value       = module.transit_gateway.ram_share_arn
+# }
 
 output "vpc_id" {
   description = "Shared-services VPC ID."
@@ -48,10 +48,10 @@ output "private_route_table_id" {
   value       = module.vpc.private_route_table_id
 }
 
-output "shared_services_tgw_attachment_id" {
-  description = "Shared-services VPC attachment ID."
-  value       = aws_ec2_transit_gateway_vpc_attachment.shared_services.id
-}
+# output "shared_services_tgw_attachment_id" {
+#   description = "Shared-services VPC attachment ID."
+#   value       = aws_ec2_transit_gateway_vpc_attachment.shared_services.id
+# }
 
 output "tgw_test_instance_id" {
   description = "Temporary shared-services TGW test EC2 instance ID, or null when disabled."
